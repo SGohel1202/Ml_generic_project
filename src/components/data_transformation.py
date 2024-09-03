@@ -37,36 +37,21 @@ class DataTransformation:
                 "test_preparation_course",
             ]
 
-            num_pipeline= Pipeline(
-                steps=[
+            num_pipeline= Pipeline(steps=[
                 ("imputer",SimpleImputer(strategy="median")),
-                ("scaler",StandardScaler())
+                ("scaler",StandardScaler())])
 
-                ]
-            )
-
-            cat_pipeline=Pipeline(
-
-                steps=[
+            cat_pipeline=Pipeline(steps=[
                 ("imputer",SimpleImputer(strategy="most_frequent")),
                 ("one_hot_encoder",OneHotEncoder()),
-                ("scaler",StandardScaler(with_mean=False))
-                ]
-
-            )
+                ("scaler",StandardScaler(with_mean=False))])
 
             logging.info(f"Categorical columns: {categorical_columns}")
             logging.info(f"Numerical columns: {numerical_columns}")
 
-            preprocessor=ColumnTransformer(
-                [
+            preprocessor=ColumnTransformer([
                 ("num_pipeline",num_pipeline,numerical_columns),
-                ("cat_pipelines",cat_pipeline,categorical_columns)
-
-                ]
-
-
-            )
+                ("cat_pipelines",cat_pipeline,categorical_columns)])
 
             return preprocessor
         
